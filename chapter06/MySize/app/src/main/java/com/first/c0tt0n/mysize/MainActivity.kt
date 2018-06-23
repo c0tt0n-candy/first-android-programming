@@ -1,5 +1,6 @@
 package com.first.c0tt0n.mysize
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     save.setOnClickListener { onSaveTapped() }
 
     heightButton.setOnClickListener {
-      // TODO: start HeightActivity
+      startActivity(Intent(this@MainActivity, HeightActivity::class.java))
     }
   }
 
