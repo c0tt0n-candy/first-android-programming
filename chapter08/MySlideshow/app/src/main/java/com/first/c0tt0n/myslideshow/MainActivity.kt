@@ -1,11 +1,15 @@
 package com.first.c0tt0n.myslideshow
 
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.imageSwitcher
 import kotlinx.android.synthetic.main.activity_main.nextButton
 import kotlinx.android.synthetic.main.activity_main.prevButton
+import kotlinx.android.synthetic.main.activity_main.slideshowButton
+import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +22,9 @@ class MainActivity : AppCompatActivity() {
   )
   private var position = 0
   private var isSlideshow = false
+  private val handler = Handler()
+
+  private lateinit var player: MediaPlayer
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -44,6 +51,28 @@ class MainActivity : AppCompatActivity() {
         setOutAnimation(this@MainActivity, android.R.anim.slide_out_right)
       }
       movePosition(1)
+    }
+
+    slideshowButton.setOnClickListener {
+      isSlideshow = !isSlideshow
+
+      when (isSlideshow) {
+        true -> player.start()
+        false -> player.apply {
+          pause()
+          seekTo(0)
+        }
+      }
+    }
+
+    player = MediaPlayer.create(this, R.raw.getdown).apply {
+      isLooping = true
+    }
+
+    timer(period = 5000) {
+      handler.post {
+        if (isSlideshow) movePosition(1)
+      }
     }
   }
 
