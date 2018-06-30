@@ -20,11 +20,13 @@ class MainActivity : AppCompatActivity() {
 
     realm = Realm.getDefaultInstance()
     val schedules = realm.where<Schedule>().findAll()
-    listView.adapter = ScheduleAdapter(schedules)
 
-    listView.setOnItemClickListener { parent, _, position, _ ->
-      val schedule = parent.getItemAtPosition(position) as Schedule
-      startActivity<ScheduleEditActivity>("schedule_id" to schedule.id)
+    listView.apply {
+      adapter = ScheduleAdapter(schedules)
+      setOnItemClickListener { parent, _, position, _ ->
+        val schedule = parent.getItemAtPosition(position) as Schedule
+        startActivity<ScheduleEditActivity>("schedule_id" to schedule.id)
+      }
     }
 
     fab.setOnClickListener { _ ->

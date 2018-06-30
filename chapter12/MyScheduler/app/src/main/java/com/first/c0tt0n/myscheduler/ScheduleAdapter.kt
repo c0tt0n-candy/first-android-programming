@@ -16,8 +16,8 @@ class ScheduleAdapter(data: OrderedRealmCollection<Schedule>?) : RealmBaseAdapte
 
     when (convertView) {
       null -> {
-        val inflater = LayoutInflater.from(parent?.context)
-        view = inflater.inflate(android.R.layout.simple_list_item_2, parent, false)
+        view = LayoutInflater.from(parent?.context)
+            .inflate(android.R.layout.simple_list_item_2, parent, false)
         holder = ViewHolder(view)
         view.tag = holder
       }
@@ -29,8 +29,10 @@ class ScheduleAdapter(data: OrderedRealmCollection<Schedule>?) : RealmBaseAdapte
 
     adapterData?.run {
       val schedule = get(position)
-      holder.date.text = DateFormat.format("yyyy/MM/dd", schedule.date)
-      holder.title.text = schedule.title
+      holder.apply {
+        date.text = DateFormat.format("yyyy/MM/dd", schedule.date)
+        title.text = schedule.title
+      }
     }
 
     return view

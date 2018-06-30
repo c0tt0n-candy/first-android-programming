@@ -32,7 +32,7 @@ class ScheduleEditActivity : AppCompatActivity() {
       val schedule = realm.where<Schedule>().equalTo("id", scheduleId).findFirst()
       dateEdit.setText(DateFormat.format("yyyy/MM/dd", schedule?.date))
       titleEdit.setText(schedule?.title)
-      titleEdit.setText(schedule?.detail)
+      detailEdit.setText(schedule?.detail)
       delete.visibility = View.VISIBLE
     } else {
       delete.visibility = View.INVISIBLE
@@ -62,8 +62,10 @@ class ScheduleEditActivity : AppCompatActivity() {
             dateEdit.text.toString().toDate("yyyy/MM/dd")?.let {
               schedule?.date = it
             }
-            schedule?.title = titleEdit.text.toString()
-            schedule?.detail = detailEdit.text.toString()
+            schedule?.run {
+              title = titleEdit.text.toString()
+              detail = detailEdit.text.toString()
+            }
           }
 
           alert("修正しました") {
